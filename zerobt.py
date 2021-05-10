@@ -40,7 +40,9 @@ mbb_model={'41-05027' :'2013',
            '40-08064C':'2020',
            '40-08084C':'2020',
            '40-08064D':'2021',
-           '40-08084D':'2021'}
+           '40-08084D':'2021',
+           '40-08064E':'2022',
+           '40-08084E':'2022'}
 
 class Error(Exception):
     """Internal: Base class for exceptions in this module."""
