@@ -16,13 +16,15 @@ There's a workaround where you can install a 1.x version of the app, connect, an
 
 ### Packets Supported
 
-* BtSt - Battery Status
-* DSt1 - Dash Status 1
-* DSt2 - Dash Status 2
-* DSt3 - Dash Status 3
-* Gbki - Bike Info
-* MbbR - Bike Board Read
-* PwPk - Power Pack
+* BtSt - Battery status
+* DSt1 - Dash status 1
+* DSt2 - Dash status 2
+* DSt3 - Dash status 3
+* Gbki - General bike info
+* MbbR - Main Bike Board info
+* PwPk - Power pack information
+
+For details of what each packet contains, you can either run the example code, or look at the source.
 
 ### Example Code
 ```
@@ -68,3 +70,85 @@ charger_0_attached: True
 charger_1_attached: False
 ...
 ```
+
+### Pairing the bike
+
+You have to Bluetooth-pair the bike to whatever device you're using. If you're using a Raspberry Pi, then you can perform the following procedure:
+
+Pair with bike:
+* Put the kickstand down.
+* Turn off the kill switch.
+* Hold down the mode button.
+* Turn on the bike.
+* Wait until the Bluetooth icon flashes. (about 5-10 seconds)
+* Release mode button.
+
+Run "bluetoothctl" and enter the following commands:
+
+[bluetooth]# ```discoverable on```
+
+Changing discoverable on succeeded
+
+[CHG] Controller B8:27:EB:C4:1E:75 Discoverable: yes
+
+[bluetooth]# ```pairable on```
+
+Changing pairable on succeeded
+
+[bluetooth]# ```agent on```
+
+Agent is already registered
+
+[bluetooth]# ```default-agent```
+
+Default agent request successful
+
+[bluetooth]# ```scan on```
+
+Discovery started
+
+[CHG] Controller B8:27:EB:C4:1E:75 Discovering: yes
+
+Wait until you see something like:
+
+  [NEW] Device 00:06:66:1C:BA:7A ZeroMotorcycles17210
+
+Tell it to pair using the bike's address:
+
+[bluetooth]# ```pair 00:06:66:1C:BA:7A```
+
+Attempting to pair with 00:06:66:1C:BA:7A
+
+[CHG] Device 00:06:66:1C:BA:7A Connected: yes
+
+Request confirmation
+
+[agent] Confirm passkey 359602 (yes/no): ```yes```
+
+[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00000000-deca-fade-deca-deafdecacaff
+
+[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00001101-0000-1000-8000-00805f9b34fb
+
+[CHG] Device 00:06:66:1C:BA:7A ServicesResolved: yes
+
+[CHG] Device 00:06:66:1C:BA:7A Paired: yes
+
+Pairing successful
+
+Make it permanent across reboots:
+
+[bluetooth]# ```trust 00:06:66:1C:BA:7A```
+
+[CHG] Device 00:06:66:1C:BA:7A Trusted: yes
+
+Changing 00:06:66:1C:BA:7A trust succeeded
+
+Turn off discoverability and exit:
+
+[bluetooth]# ```discoverable off```
+
+Changing discoverable off succeeded
+
+[bluetooth]# ```quit```
+
+Now you can turn the bike off.
