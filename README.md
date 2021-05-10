@@ -40,6 +40,10 @@ Place zerobt.py somewhere on the Python path like
 For details of what each packet contains, you can either run the example code,
 or look at the source.
 
+Note that the API determines the bike's model year by looking at the Main Bike
+Board part number. Request a "Gbki" packet and use the "mbb_partno" field as a key
+to the "mbb_model" dictionary.
+
 ### Example Code
 ```
 #! /usr/bin/env python3
