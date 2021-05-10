@@ -1,5 +1,5 @@
 # ZeroBT
-This is a Python 3.x library to connect to a Zero electric motorcycle via a
+This is a Python 3.x library to connect to a Zero electric motorcycle via
 Bluetooth and retrieve information.
 
 ## Why?
