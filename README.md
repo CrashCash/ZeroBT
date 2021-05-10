@@ -85,70 +85,38 @@ Pair with bike:
 
 Run "bluetoothctl" and enter the following commands:
 
-[bluetooth]# ```discoverable on```
-
-Changing discoverable on succeeded
-
-[CHG] Controller B8:27:EB:C4:1E:75 Discoverable: yes
-
-[bluetooth]# ```pairable on```
-
-Changing pairable on succeeded
-
-[bluetooth]# ```agent on```
-
-Agent is already registered
-
-[bluetooth]# ```default-agent```
-
-Default agent request successful
-
-[bluetooth]# ```scan on```
-
-Discovery started
-
-[CHG] Controller B8:27:EB:C4:1E:75 Discovering: yes
-
-Wait until you see something like:
-
-  [NEW] Device 00:06:66:1C:BA:7A ZeroMotorcycles17210
-
-Tell it to pair using the bike's address:
-
-[bluetooth]# ```pair 00:06:66:1C:BA:7A```
-
-Attempting to pair with 00:06:66:1C:BA:7A
-
-[CHG] Device 00:06:66:1C:BA:7A Connected: yes
-
-Request confirmation
-
-[agent] Confirm passkey 359602 (yes/no): ```yes```
-
-[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00000000-deca-fade-deca-deafdecacaff
-
-[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00001101-0000-1000-8000-00805f9b34fb
-
-[CHG] Device 00:06:66:1C:BA:7A ServicesResolved: yes
-
-[CHG] Device 00:06:66:1C:BA:7A Paired: yes
-
-Pairing successful
-
-Make it permanent across reboots:
-
-[bluetooth]# ```trust 00:06:66:1C:BA:7A```
-
-[CHG] Device 00:06:66:1C:BA:7A Trusted: yes
-
-Changing 00:06:66:1C:BA:7A trust succeeded
-
-Turn off discoverability and exit:
-
-[bluetooth]# ```discoverable off```
-
-Changing discoverable off succeeded
-
+[bluetooth]# ```discoverable on```\
+Changing discoverable on succeeded\
+[CHG] Controller B8:27:EB:C4:1E:75 Discoverable: yes\
+[bluetooth]# ```pairable on```\
+Changing pairable on succeeded\
+[bluetooth]# ```agent on```\
+Agent is already registered\
+[bluetooth]# ```default-agent```\
+Default agent request successful\
+[bluetooth]# ```scan on```\
+Discovery started\
+[CHG] Controller B8:27:EB:C4:1E:75 Discovering: yes\
+Wait until you see something like:\
+  [NEW] Device 00:06:66:1C:BA:7A ZeroMotorcycles17210\
+Tell it to pair using the bike's address:\
+[bluetooth]# ```pair 00:06:66:1C:BA:7A```\
+Attempting to pair with 00:06:66:1C:BA:7A\
+[CHG] Device 00:06:66:1C:BA:7A Connected: yes\
+Request confirmation\
+[agent] Confirm passkey 359602 (yes/no): ```yes```\
+[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00000000-deca-fade-deca-deafdecacaff\
+[CHG] Device 00:06:66:1C:BA:7A UUIDs: 00001101-0000-1000-8000-00805f9b34fb\
+[CHG] Device 00:06:66:1C:BA:7A ServicesResolved: yes\
+[CHG] Device 00:06:66:1C:BA:7A Paired: yes\
+Pairing successful\
+Make it permanent across reboots:\
+[bluetooth]# ```trust 00:06:66:1C:BA:7A```\
+[CHG] Device 00:06:66:1C:BA:7A Trusted: yes\
+Changing 00:06:66:1C:BA:7A trust succeeded\
+Turn off discoverability and exit:\
+[bluetooth]# ```discoverable off```\
+Changing discoverable off succeeded\
 [bluetooth]# ```quit```
 
 Now you can turn the bike off.
