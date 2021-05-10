@@ -5,16 +5,17 @@ import zerobt
 
 socket=zerobt.connect_to_bike()
 
-print('Name:', zerobt.name)
-print('Addr:', zerobt.addr)
-print('Port:', zerobt.port)
-print()
-
-for cmd in sorted(zerobt.cmd_packets):
-    packet=zerobt.read_packet(socket, cmd)
-    print(cmd)
-    for key in sorted(packet):
-        print(key+':', packet[key])
+try:
+    print('Name:', zerobt.name)
+    print('Addr:', zerobt.addr)
+    print('Port:', zerobt.port)
     print()
 
-socket.close()
+    for cmd in sorted(zerobt.cmd_packets):
+        packet=zerobt.read_packet(socket, cmd)
+        print(cmd)
+        for key in sorted(packet):
+            print(key+':', packet[key])
+        print()
+finally:
+    socket.close()

@@ -53,20 +53,25 @@ import zerobt
 
 socket=zerobt.connect_to_bike()
 
-print('Name:', zerobt.name)
-print('Addr:', zerobt.addr)
-print('Port:', zerobt.port)
-print()
-
-for cmd in sorted(zerobt.cmd_packets):
-    packet=zerobt.read_packet(socket, cmd)
-    print(cmd)
-    for key in sorted(packet):
-        print(key+':', packet[key])
+try:
+    print('Name:', zerobt.name)
+    print('Addr:', zerobt.addr)
+    print('Port:', zerobt.port)
     print()
 
-socket.close()
+    for cmd in sorted(zerobt.cmd_packets):
+        packet=zerobt.read_packet(socket, cmd)
+        print(cmd)
+        for key in sorted(packet):
+            print(key+':', packet[key])
+        print()
+finally:
+    socket.close()
 ```
+
+Note the try..finally to ensure the socket is closed. The motorcycle supports
+only one connection at a time, so if you don't close the socket, you have to
+wait for a long timeout or turn the bike off before you can connect again.
 
 Output:
 ```
