@@ -6,6 +6,7 @@ import bluetooth
 import pydbus
 import select
 import struct
+import time
 import zlib
 
 # info of last device we looked at
@@ -143,35 +144,46 @@ def get_addr(substr=None):
             return addr
     raise NoDevices('No paired motorcycle devices found with "'+substr+'" in the name')
 
-def get_services(addr):
-    """Discover Bluetooth services at address. This looks for it on the air."""
-    services=bluetooth.find_service(uuid=uuid, address=addr)
-    if not services:
-        raise NoServices('No Bluetooth services found at '+addr)
-    return services
+def get_services(address=None, retries=1, callback=None):
+    """Discover Bluetooth services at address. This looks for it on the air.
 
-def get_port(addr, retries=1, callback=None):
+    retries  -- retry count
+    callback -- called after each failure
+    """
+    global name, addr, port
+    addr=address
+    if not addr:
+        addr=get_addr()
+    tries=0
+    while (retries):
+        services=bluetooth.find_service(uuid=uuid, address=addr)
+        if services:
+            if tries:
+                # don't jump on it the moment it comes on the air
+                time.sleep(5)
+            return services
+        if callback:
+            callback()
+        retries-=1
+        tries+=1
+    raise NoServices('No Bluetooth services found at '+addr)
+
+def get_port(address, retries=1, callback=None):
     """Return port serviced by bike at address.
 
     retries  -- retry count
-    callback -- called after eack failure
+    callback -- called after each failure
     """
-    global name, port
-    while (retries):
-        try:
-            port=get_services(addr)[0]['port']
-            return port
-        except NoServices:
-            if callback:
-                callback()
-        retries-=1
-    raise NoServices('No Bluetooth services found at '+addr)
+    global name, addr, port
+    addr=address
+    port=get_services(addr, retries, callback)[0]['port']
+    return port
 
 def get_addr_and_port(substr=None, retries=1, callback=None):
     """Return address and port of bike. Can restrict to bike with substring in name.
 
     retries  -- retry count
-    callback -- called after eack failure
+    callback -- called after each failure
     """
     global name, addr, port
     addr=get_addr(substr)
@@ -196,7 +208,7 @@ def connect_to_bike(substr=None, retries=1, callback=None):
     """I don't care about addresses and ports, I want a socket connected to a bike.
 
     retries  -- retry count
-    callback -- called after eack failure
+    callback -- called after each failure
 
     You are responsible for closing this socket after use.
     Since the bike only accepts one connection, not closing the socket will block other connections
@@ -239,7 +251,7 @@ def read_packet(sock, cmd, timeout=0.5):
             data+=sock.recv(1024)
             i=data.find(trailer)
             size=len(data)
-            complete=(i > 0 and size-i == 8)
+            complete=(i > 0) and (size-i == 8)
 
     # squawk if we didn't get anything
     if not data or not complete:
