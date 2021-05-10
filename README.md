@@ -24,7 +24,7 @@ on the net.
 
 ### Installation
 
-Place the zerobt.py somewhere on the Python path like
+Place zerobt.py somewhere on the Python path like
 /usr/lib/python3/dist-packages
 
 ### Packets Supported
