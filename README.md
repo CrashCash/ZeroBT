@@ -1,18 +1,31 @@
 # ZeroBT
-This is a Python 3.x library to connect to a  Zero electric motorcycle via a Bluetooth and retrieve information.
+This is a Python 3.x library to connect to a Zero electric motorcycle via a
+Bluetooth and retrieve information.
 
 ## Why?
-Because I wanted to write an Android app to display a "range" circle on Google Maps.
+Because I wanted to write an Android app to display a "range" circle on Google
+Maps.
 
-Because I wanted to monitor the charging remotely. The Bluetooth range is only about 20 feet maximum, so I set up a Raspberry Pi in range to talk to the bike and serve a web page.
+Because I wanted to monitor the charging remotely. The Bluetooth range is only
+about 20 feet maximum, so I set up a Raspberry Pi in range to talk to the bike
+and serve a web page.
 
 Most importantly of all: THE ZERO ANDROID APP DOESN'T WORK
 
-The Android app can't find the motorcycle and connect to it, even after you pair with it.
+The Android app can't find the motorcycle and connect to it, even after you
+pair with it.
 
-Yes, you pay $20,000 for an electric motorcycle, and you can't get a working app to connect to it and set up various modes. Seriously.
+Yes, you pay $20,000 for an electric motorcycle, and you can't get a working
+app to connect to it and set up various modes. Seriously.
 
-There's a workaround where you can install a 1.x version of the app, connect, and then upgrade, but you have to find an older version of the app somewhere on the net.
+There's a workaround where you can install a 1.x version of the app, connect,
+and then upgrade, but you have to find an older version of the app somewhere
+on the net.
+
+### Installation
+
+Place the zerobt.py somewhere on the Python path like
+/usr/lib/python3/dist-packages
 
 ### Packets Supported
 
@@ -24,7 +37,8 @@ There's a workaround where you can install a 1.x version of the app, connect, an
 * MbbR - Main Bike Board info
 * PwPk - Power pack information
 
-For details of what each packet contains, you can either run the example code, or look at the source.
+For details of what each packet contains, you can either run the example code,
+or look at the source.
 
 ### Example Code
 ```
@@ -71,9 +85,13 @@ charger_1_attached: False
 ...
 ```
 
+I also have the "charging_data" script that retrieves information as the bike
+is charging, and outputs it in a CSV format suitable for a spreadsheet.
+
 ### Pairing the bike
 
-You have to Bluetooth-pair the bike to whatever device you're using. If you're using a Raspberry Pi, then you can perform the following procedure:
+You have to Bluetooth-pair the bike to whatever device you're using. If you're
+using a Raspberry Pi, then you can perform the following procedure:
 
 Pair with bike:
 * Put the kickstand down.
