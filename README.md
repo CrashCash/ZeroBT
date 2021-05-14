@@ -16,11 +16,11 @@ The Android app can't find the motorcycle and connect to it, even after you
 pair with it.
 
 Yes, you pay $20,000 for an electric motorcycle, and you can't get a working
-app to connect to it and set up various modes. Seriously.
+app to connect to it and set up the custom mode. Seriously.
 
 There's a workaround where you can install a 1.x version of the app, connect,
 and then upgrade, but you have to find an older version of the app somewhere
-on the net.
+on the net and hope it doesn't have malware in it.
 
 ### Installation
 

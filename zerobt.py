@@ -82,7 +82,22 @@ def _uint(offset):
     """Internal: Extract a 4-byte unsigned integer."""
     return struct.unpack('<I', data[offset:offset+4])[0]
 
-def compute_cmd_packet(cmd):
+def _compute_checksum(packet):
+    """Compute packet Reversed CRC-32 checksum.
+
+    See:
+        https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/
+        http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
+        https://en.wikipedia.org/wiki/Cyclic_redundancy_check
+    """
+    # compute checksum
+    cksum=zlib.crc32(packet)
+    # convert to bytes
+    cksum=cksum.to_bytes(4, byteorder='big')
+    # reverse the order of bytes
+    return cksum[::-1]
+
+def _compute_cmd_packet(cmd):
     """Compute a command packet from a 4-character command string.
 
     Command structure:
@@ -90,19 +105,11 @@ def compute_cmd_packet(cmd):
     4-byte command: 5077506B (PwPk)
     Trailer (constant): F8F4F2F1
     Reversed CRC-32 checksum: D4B19292
-        https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/
-        http://www.sunshine2k.de/coding/javascript/crc/crc_js.html
-        https://en.wikipedia.org/wiki/Cyclic_redundancy_check
     """
     header=b'\xF1\xF2\xF4\xF8\x00\x00\x00\x00'
     trailer=b'\xF8\xF4\xF2\xF1'
     cmd_pkt=header+bytearray(cmd, 'ascii')+trailer
-    # compute checksum
-    cksum=zlib.crc32(cmd_pkt)
-    # convert to bytes
-    cksum=cksum.to_bytes(4, byteorder='big')
-    # reverse the order of bytes
-    cmd_pkt+=cksum[::-1]
+    cmd_pkt+=compute_checksum(cmd_pkt)
     return cmd_pkt
 
 # yes, this is a really bullshit way to do this, but it works and I haven't found the real way to do it
@@ -117,7 +124,7 @@ def _get_paired_devices_linux():
 
 # sorry
 def _get_paired_devices_windows():
-    raise NotImplementedError
+    raise NotImplementedError('Cannot find paired devices on Windows')
 
 def get_motorcycle_devices():
     """Return list of Zero motorcycle devices."""
@@ -159,6 +166,7 @@ def get_services(address=None, retries=1, callback=None):
         services=bluetooth.find_service(uuid=uuid, address=addr)
         if services:
             if tries:
+                # prevent "Connection reset by peer" error
                 # don't jump on it the moment it comes on the air
                 time.sleep(5)
             return services
@@ -255,7 +263,14 @@ def read_packet(sock, cmd, timeout=0.5):
 
     # squawk if we didn't get anything
     if not data or not complete:
-        raise NoData()
+        raise NoData('No data received')
+
+    # check checksum
+    cs=_compute_checksum(data[:-4])
+    if cs != data[-4:]:
+        raise NoData('bad checksum')
+
+    #print(data)
 
     # decode data
     packet={}
