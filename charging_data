@@ -23,12 +23,12 @@ try:
 
     # header line
     print('"Time"',
-          '"Minutes\nUntil\nCharged"',
-          '"Battery\nCurrent\n(amps)"', '"Cell\nVoltage\nMax\n(mv)"', '"Cell\nVoltage\nMin\n(mv)"',
+          '"Time\nUntil\nCharged"',
+          '"Battery\nCurrent\n(amps)"', '"Cell\nVoltage\nMax\n(mV)"', '"Cell\nVoltage\nMin\n(mV)"',
           '"Pack\nCapacity\n(ah)"', '"Pack\nCapacity\nRemain\n(ah)"', '"Pack\nTemp\n1 (°C)"', '"Pack\nTemp\n2 (°C)"',
           '"Pack\nTemp\n3 (°C)"', '"Pack\nTemp\n4 (°C)"', '"Pack\nTemp\n5 (°C)"', '"Pack\nTemp\n6 (°C)"',
           '"Pack\nTemp\n7 (°C)"', '"Pack\nTemp\n8 (°C)"', '"Pack\nTemp\nMax (°C)"', '"Pack\nTemp\nMin (°C)"',
-          '"Pack\nVoltage\n(mv)"', '"Charge\n(%)"', sep=',', flush=True)
+          '"Pack\nVoltage\n(mV)"', '"Charge\n(%)"', sep=',', flush=True)
 
     ctr=5
     while ctr:
@@ -36,7 +36,7 @@ try:
 
         mbbr=zerobt.read_packet(socket, 'MbbR')
         if mbbr['charging']:
-            ctr=6
+            ctr=5
         else:
             ctr-=1
             continue
@@ -49,8 +49,10 @@ try:
         pwpk=zerobt.read_packet(socket, 'PwPk')
         dst3=zerobt.read_packet(socket, 'DSt3')
 
-        print(now,
-              dst3['minutes_until_charged'],
+        t=dst3['minutes_until_charged']
+        h, m=divmod(t, 60)
+
+        print(now, '%d:%02d' % (h, m),
               pwpk['battery_current_amps'], pwpk['cell_voltage_max_mv'], pwpk['cell_voltage_min_mv'],
               pwpk['pack_capacity_ah'], pwpk['pack_capacity_remain_ah'], pwpk['pack_temp_1_c'], pwpk['pack_temp_2_c'],
               pwpk['pack_temp_3_c'], pwpk['pack_temp_4_c'], pwpk['pack_temp_5_c'], pwpk['pack_temp_6_c'],

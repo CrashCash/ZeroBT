@@ -1,6 +1,6 @@
 """Communicate with Zero Motorcycles over Bluetooth."""
 
-# A good spot for this is /usr/lib/python3/dist-packages
+# Place in /usr/lib/python3/dist-packages on Debian
 
 import bluetooth
 import pydbus
@@ -25,6 +25,9 @@ cmd_packets={'BtSt':b'\xf1\xf2\xf4\xf8\x00\x00\x00\x00BtSt\xf8\xf4\xf2\xf1\xe2\x
              'Gbki':b'\xf1\xf2\xf4\xf8\x00\x00\x00\x00Gbki\xf8\xf4\xf2\xf1\x81\x9ew\xc5',    # Bike Info
              'MbbR':b'\xf1\xf2\xf4\xf8\x00\x00\x00\x00MbbR\xf8\xf4\xf2\xf1\x16ZI\xa5',       # Bike Board Read
              'PwPk':b'\xf1\xf2\xf4\xf8\x00\x00\x00\x00PwPk\xf8\xf4\xf2\xf1\xd4\xb1\x92\x92'} # Power Pack
+
+header=b'\xF1\xF2\xF4\xF8\x00\x00\x00\x00'
+trailer=b'\xF8\xF4\xF2\xF1'
 
 # map of MBB part number to model year
 # This is the "mbb_partno" from the "Gbki" packet
@@ -83,7 +86,7 @@ def _uint(offset):
     return struct.unpack('<I', data[offset:offset+4])[0]
 
 def _compute_checksum(packet):
-    """Compute packet Reversed CRC-32 checksum.
+    """Compute Reversed CRC-32 packet checksum.
 
     See:
         https://www.scadacore.com/tools/programming-calculators/online-checksum-calculator/
@@ -106,8 +109,6 @@ def _compute_cmd_packet(cmd):
     Trailer (constant): F8F4F2F1
     Reversed CRC-32 checksum: D4B19292
     """
-    header=b'\xF1\xF2\xF4\xF8\x00\x00\x00\x00'
-    trailer=b'\xF8\xF4\xF2\xF1'
     cmd_pkt=header+bytearray(cmd, 'ascii')+trailer
     cmd_pkt+=compute_checksum(cmd_pkt)
     return cmd_pkt
@@ -254,7 +255,6 @@ def read_packet(sock, cmd, timeout=0.5):
 
         # read data
         data=b''
-        trailer=b'\xF8\xF4\xF2\xF1'
         while not complete and select.select([sock], [], [], timeout)[0]:
             data+=sock.recv(1024)
             i=data.find(trailer)
@@ -273,8 +273,8 @@ def read_packet(sock, cmd, timeout=0.5):
     #print(data)
 
     # decode data
-    packet={}
     data_type=data[8:12].decode('ascii')
+    packet={'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'type': data_type}
     if data_type == 'Gbki':
         packet['vin']=_null_terminated(12)
         packet['make']=_null_terminated(30)
@@ -318,14 +318,19 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['bike_armed']     =(flags & 0x4000000)>0
         packet['killswitch_stop']=(flags & 0x8000000)>0
         packet['kickstand_down'] =(flags & 0x10000000)>0
-        packet['max_eco_speed_mph']=_ushort(32)
-        packet['max_eco_torque_pct']=_ushort(34)
-        packet['max_eco_regen_torque_pct']=_ushort(36)
-        packet['max_eco_brake_regen_torque_pct']=_ushort(38)
+        packet['max_custom_speed_mph']=_ushort(32)
+        packet['max_custom_torque_pct']=_ushort(34)
+        packet['max_custom_regen_torque_pct']=_ushort(36)
+        packet['max_custom_brake_regen_torque_pct']=_ushort(38)
     elif data_type == 'PwPk':
         packet['pack_voltage_mv']=_uint(12)
-        packet['cell_voltage_min_mv']=_ushort(34)
-        packet['cell_voltage_max_mv']=_ushort(52)
+        cells=[]
+        for i in range(28):
+            mv=_ushort(16+i*2)
+            cells.append(mv)
+            packet['cell_voltage_%02d_mv' % (i+1)]=mv
+        packet['cell_voltage_min_mv']=min(cells)
+        packet['cell_voltage_max_mv']=max(cells)
         packet['charge_pct']=_ubyte(72)
         packet['pack_capacity_ah']=_ushort(74)
         packet['pack_capacity_remain_ah']=_ushort(76)
@@ -340,18 +345,18 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['motor_current_amps']=_sshort(106)
         packet['num_charge_cycles']=_uint(108)
     elif data_type == 'DSt1':
-        packet['trip_1_km_x100']=_uint(12)
+        packet['trip_1_km']=_uint(12)/100
         packet['motor_rpm']=_ushort(16)
         packet['error_code']=_ushort(18)
     elif data_type == 'DSt2':
-        packet['trip_2_km_x100']=_uint(12)
-        packet['est_range_km_x100']=_ushort(16)
+        packet['trip_2_km']=_uint(12)/100
+        packet['est_range_km']=_ushort(16)/100
         packet['motor_temp_c']=_ushort(18)
     elif data_type == 'DSt3':
         packet['minutes_until_charged']=_ushort(12)
-        packet['wh_per_km_instant_x100']=_uint(14)
-        packet['wh_per_km_avg_x100']=_ushort(20)
-        packet['wh_per_km_life_x100']=_ushort(22)
+        packet['wh_per_km_instant']=_uint(14)/100
+        packet['wh_per_km_avg']=_ushort(20)/100
+        packet['wh_per_km_life']=_ushort(22)/100
     else:
         print(data)
         raise ValueError('Unknown packet type: "'+data_type+'" size: '+str(len(data)))

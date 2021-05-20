@@ -11,38 +11,46 @@ battery_temp_cold: False
 battery_temp_critical_high: False
 battery_temp_high: False
 bike_on: True
-charge_pct: 41
+charge_pct: 38
 charger_0_attached: True
 charger_1_attached: False
-odometer_miles: 885
+odometer_miles: 1040
 pack_capacity_ah: 142
-pack_capacity_remain_ah: 57
-pack_temp_1_c: 28
-pack_temp_2_c: 29
-pack_temp_3_c: 29
-pack_temp_4_c: 28
-pack_temp_5_c: 29
-pack_temp_6_c: 29
-pack_temp_7_c: 29
-pack_temp_8_c: 29
-pack_voltage_mv: 101154
-total_power_used_kw: 138
+pack_capacity_remain_ah: 54
+pack_temp_1_c: 32
+pack_temp_2_c: 33
+pack_temp_3_c: 34
+pack_temp_4_c: 32
+pack_temp_5_c: 32
+pack_temp_6_c: 33
+pack_temp_7_c: 34
+pack_temp_8_c: 32
+pack_voltage_mv: 100833
+time: 2021-05-19 23:17:57
+total_power_used_kw: 160
+type: BtSt
 
 DSt1
 error_code: 47
 motor_rpm: 0
-trip_1_km_x100: 11130
+time: 2021-05-19 23:17:57
+trip_1_km: 165.7
+type: DSt1
 
 DSt2
-est_range_km_x100: 5671
-motor_temp_c: 37
-trip_2_km_x100: 142460
+est_range_km: 63.68
+motor_temp_c: 40
+time: 2021-05-19 23:17:57
+trip_2_km: 1673.4
+type: DSt2
 
 DSt3
-minutes_until_charged: 460
-wh_per_km_avg_x100: 8519
-wh_per_km_instant_x100: 0
-wh_per_km_life_x100: 6456
+minutes_until_charged: 487
+time: 2021-05-19 23:17:57
+type: DSt3
+wh_per_km_avg: 66.68
+wh_per_km_instant: 0.0
+wh_per_km_life: 64.42
 
 Gbki
 bms_fw_ver: 39
@@ -51,6 +59,8 @@ make: Zero Motorcycles
 mbb_fw_ver: 32
 mbb_partno: 40-08064D
 model: SR
+time: 2021-05-19 23:17:58
+type: Gbki
 vin: 538SMLZ69MCG17210
 
 MbbR
@@ -59,40 +69,72 @@ bike_armed: False
 bike_speed_mph: 0
 brake_applied: False
 charging: True
-controller_temp_c: 28
+controller_temp_c: 31
 kickstand_down: False
 killswitch_stop: False
-max_eco_brake_regen_torque_pct: 100
-max_eco_regen_torque_pct: 74
-max_eco_speed_mph: 106
-max_eco_torque_pct: 100
+max_custom_brake_regen_torque_pct: 100
+max_custom_regen_torque_pct: 74
+max_custom_speed_mph: 106
+max_custom_torque_pct: 100
 motor_current_amps: 0
 motor_speed_rpm: 0
-motor_temp_c: 36
+motor_temp_c: 40
 motor_torque_nm: 0
 temp_warning: False
+time: 2021-05-19 23:17:58
+type: MbbR
 
 PwPk
-battery_current_amps: -11
-cell_voltage_max_mv: 3612
-cell_voltage_min_mv: 3613
-charge_pct: 38
-controller_temp_c: 28
+battery_current_amps: -10
+cell_voltage_01_mv: 3593
+cell_voltage_02_mv: 3599
+cell_voltage_03_mv: 3600
+cell_voltage_04_mv: 3600
+cell_voltage_05_mv: 3602
+cell_voltage_06_mv: 3601
+cell_voltage_07_mv: 3601
+cell_voltage_08_mv: 3601
+cell_voltage_09_mv: 3602
+cell_voltage_10_mv: 3602
+cell_voltage_11_mv: 3603
+cell_voltage_12_mv: 3600
+cell_voltage_13_mv: 3602
+cell_voltage_14_mv: 3602
+cell_voltage_15_mv: 3603
+cell_voltage_16_mv: 3602
+cell_voltage_17_mv: 3603
+cell_voltage_18_mv: 3602
+cell_voltage_19_mv: 3601
+cell_voltage_20_mv: 3603
+cell_voltage_21_mv: 3603
+cell_voltage_22_mv: 3603
+cell_voltage_23_mv: 3603
+cell_voltage_24_mv: 3603
+cell_voltage_25_mv: 3603
+cell_voltage_26_mv: 3603
+cell_voltage_27_mv: 3602
+cell_voltage_28_mv: 3597
+cell_voltage_max_mv: 3603
+cell_voltage_min_mv: 3593
+charge_pct: 35
+controller_temp_c: 31
 motor_current_amps: 0
-motor_temp_c: 37
-motor_temp_max_c: 37
-num_charge_cycles: 24
+motor_temp_c: 40
+motor_temp_max_c: 43
+num_charge_cycles: 26
 pack_capacity_ah: 142
-pack_capacity_remain_ah: 57
-pack_temp_1_c: 28
-pack_temp_2_c: 29
-pack_temp_3_c: 29
-pack_temp_4_c: 28
-pack_temp_5_c: 29
-pack_temp_6_c: 29
-pack_temp_7_c: 29
-pack_temp_8_c: 29
-pack_temp_max_c: 29
-pack_temp_min_c: 28
-pack_voltage_mv: 101157
+pack_capacity_remain_ah: 54
+pack_temp_1_c: 32
+pack_temp_2_c: 33
+pack_temp_3_c: 34
+pack_temp_4_c: 32
+pack_temp_5_c: 32
+pack_temp_6_c: 33
+pack_temp_7_c: 34
+pack_temp_8_c: 32
+pack_temp_max_c: 34
+pack_temp_min_c: 32
+pack_voltage_mv: 100840
+time: 2021-05-19 23:17:58
+type: PwPk
 
