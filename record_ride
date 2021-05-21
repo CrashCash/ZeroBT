@@ -35,8 +35,13 @@ pickler=pickle.Pickler(f, pickle.HIGHEST_PROTOCOL)
 socket=None
 try:
     # connect to bike
-    socket=zerobt.connect_to_bike()
-    print('connected to bike')
+    while not interrupted:
+        try:
+            socket=zerobt.connect_to_bike()
+        except:
+            print('trying to connect to bike', flush=True)
+            time.sleep(1)
+    print('connected to bike', flush=True)
 
     # because we have to run in the background
     sys.stdout=open('ride_output-%d.txt' % ctr, 'w')

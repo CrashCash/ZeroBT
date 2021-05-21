@@ -30,6 +30,7 @@ import os
 import pickle
 import signal
 import sys
+import time
 import zerobt
 
 # calculate distance between 2 points on the earth using Haversine
@@ -73,26 +74,31 @@ pickler=pickle.Pickler(f, pickle.HIGHEST_PROTOCOL)
 socket=None
 interrupted=False
 try:
-    # connect to GPSd
-    gpsd.connect()
-
-    # wait for lock
+    # connect to GPSd and wait for lock
     while not interrupted:
         try:
+            gpsd.connect()
             fix=gpsd.get_current()
             if fix.mode >= 2:
                 break
         except:
-            pass
-    print('GPS acquired')
+            print('trying to connect to GPS', flush=True)
+            time.sleep(1)
+    print('GPS acquired', flush=True)
 
     # connect to bike
-    socket=zerobt.connect_to_bike()
-    print('connected to bike')
+    while not interrupted:
+        try:
+            socket=zerobt.connect_to_bike()
+            break
+        except:
+            print('trying to connect to bike', flush=True)
+            time.sleep(1)
+    print('connected to bike', flush=True)
 
     # because we have to run in the background
-    #sys.stdout=open('ride_gps_output-%d.txt' % ctr, 'w')
-    #sys.stderr=open('ride_gps_error-%d.txt' % ctr, 'w')
+    sys.stdout=open('ride_gps_output-%d.txt' % ctr, 'w')
+    sys.stderr=open('ride_gps_error-%d.txt' % ctr, 'w')
 
     ctr=0
     old_lat=0
@@ -121,8 +127,8 @@ try:
         ctr+=1
         if ctr > 15:
             ctr=0
-#except Exception as e:
-#    print(e)
+except Exception as e:
+    print(e)
 finally:
     f.close()
     if socket:
