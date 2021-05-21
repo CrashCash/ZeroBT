@@ -102,17 +102,22 @@ charging_status - Short sweet charging status script for the command line.
 
 record_ride - Record a ride with the Raspberry Pi in a saddlebag.
 
-extract_ride - Extract data from data file produced by above.
+extract_ride - Extract data suitable for a spreadsheet from data file produced
+by above.
 
-record_ride_gps - Record a ride with the Raspberry Pi and a GPS in a saddlebag. (You can use your phone as a GPS) - NOT FINISHED
+record_ride_gps - Record a ride with the Raspberry Pi and a GPS in a
+saddlebag. You can use your phone as a GPS - read the script header for
+details.
 
-extract_ride_gps - Extract data from data file produced by above. - NOT FINISHED
+extract_ride_gps - Extract data suitable for Google Maps/Google Earth from
+data file produced by above.
 
 all_zero_packets - List all possible packets in an easy-to-read format.
 
-all_zero_packets.txt - example of above.
+all_zero_packets.txt - Example of above.
 
-all_zero_packets_demo - List all possible packets as Python data items.
+all_zero_packets_demo - List all possible packets as Python data items,
+suitable for pasting into test code.
 
 all_zero_packets_demo.txt - Example of above.
 
