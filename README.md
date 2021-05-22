@@ -105,21 +105,22 @@ record_ride - Record a ride with the Raspberry Pi in a saddlebag.
 extract_ride - Extract data suitable for a spreadsheet from data file produced
 by above.
 
+extract_ride_text - Extract data as Python statements from data file produced
+by above.
+
 record_ride_gps - Record a ride with the Raspberry Pi and a GPS in a
 saddlebag. You can use your phone as a GPS - read the script header for
-details.
+details. The "ride_gps.dat" file is an example.
 
 extract_ride_gps - Extract data suitable for Google Maps/Google Earth from
-data file produced by above.
+data file produced by above. The "ride_gps.kml" file is an example.
 
-all_zero_packets - List all possible packets in an easy-to-read format.
-
-all_zero_packets.txt - Example of above.
+all_zero_packets - List all possible packets in an easy-to-read format. The
+"all_zero_packets.txt" file is an example.
 
 all_zero_packets_demo - List all possible packets as Python data items,
-suitable for pasting into test code.
-
-all_zero_packets_demo.txt - Example of above.
+suitable for pasting into test code. The "all_zero_packets_demo.txt" is an
+example.
 
 ### Pairing the bike
 
