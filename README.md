@@ -115,6 +115,10 @@ details. The "ride_gps.dat" file is an example.
 extract_ride_gps - Extract data suitable for Google Maps/Google Earth from
 data file produced by above. The "ride_gps.kml" file is an example.
 
+![Ride displayed in Google Earth](/screenshot-1.png?raw=true "Ride displayed in Google Earth")
+
+![One point with data](/screenshot-1.png?raw=true "One point with data")
+
 all_zero_packets - List all possible packets in an easy-to-read format. The
 "all_zero_packets.txt" file is an example.
 
