@@ -25,6 +25,26 @@ What is going on out there? Isn't this sort of a fundamental thing to have
 working? One of the reasons I traded my 2015 for a 2021 was to have the
 ability to update the firmware with my phone and not have to visit the dealer.
 
+### Uses
+If you're using a Raspberry Pi with built-in Bluetooth and WiFi like a
+Raspberry Pi 3 Model B, then it's robust enough to throw in a saddlebag and
+power it from a USB charger in the cigarette lighter plug.
+
+If you follow the instructions for "Raspberry Pi - Auto WiFi Hotspot Switch -
+Direct Connection"
+https://www.raspberryconnect.com/projects/65-raspberrypi-hotspot-accesspoints/158-raspberry-pi-auto-wifi-hotspot-switch-direct-connection
+then you can access your Pi on the road from an SSH app like ConnectBot or a
+laptop, and your Pi still reconnects to your home WiFi when you ride home, and
+you can connect from your desktop.
+
+This opens up a world of writing scripts to record your rides. The
+"record_ride" and "extract_ride" scripts are a good starting point. The
+advantage of saving the entire stream of packets is that later you can pick
+and choose what data to extract.
+
+Since the bike's Bluetooth range is so short, I designed a system to show the
+bike's info on webpages, so you can monitor it as it charges.
+
 ### Installation
 
 Place zerobt.py somewhere on the Python path like
@@ -179,23 +199,3 @@ Changing discoverable off succeeded\
 [bluetooth]# ```quit```
 
 Now you can turn the bike off.
-
-### Uses
-If you're using a Raspberry Pi with built-in Bluetooth and WiFi like a
-Raspberry Pi 3 Model B, then it's robust enough to throw in a saddlebag and
-power it from a USB charger in the cigarette lighter plug.
-
-If you follow the instructions for "Raspberry Pi - Auto WiFi Hotspot Switch -
-Direct Connection"
-https://www.raspberryconnect.com/projects/65-raspberrypi-hotspot-accesspoints/158-raspberry-pi-auto-wifi-hotspot-switch-direct-connection
-then you can access your Pi on the road from an SSH app like ConnectBot or a
-laptop, and your Pi still reconnects to your home WiFi when you ride home, and
-you can connect from your desktop.
-
-This opens up a world of writing scripts to record your rides. The
-"record_ride" and "extract_ride" scripts are a good starting point. The
-advantage of saving the entire stream of packets is that later you can pick
-and choose what data to extract.
-
-Since the bike's Bluetooth range is so short, I designed a system to show the
-bike's info on webpages, so you can monitor it as it charges.
