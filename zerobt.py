@@ -276,6 +276,7 @@ def read_packet(sock, cmd, timeout=0.5):
     data_type=data[8:12].decode('ascii')
     packet={'time': time.strftime('%Y-%m-%d %H:%M:%S'), 'type': data_type}
     if data_type == 'Gbki':
+        # General bike info packet
         packet['vin']=_null_terminated(12)
         packet['make']=_null_terminated(30)
         packet['model']=_null_terminated(50)
@@ -284,6 +285,7 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['mbb_fw_ver']=_uint(108)
         packet['bms_fw_ver']=_uint(112)
     elif data_type == 'BtSt':
+        # Battery status packet
         packet['pack_voltage_mv']=_uint(12)
         packet['pack_capacity_ah']=_ushort(16)
         packet['pack_capacity_remain_ah']=_ushort(18)
@@ -304,6 +306,7 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['avg_pwr_over_dist_kw_mile']=_ushort(48) # not done
         packet['total_power_used_kw']=_uint(52)
     elif data_type == 'MbbR':
+        # Main bike board read packet
         packet['motor_torque_nm']=_sshort(12)
         packet['motor_speed_rpm']=_ushort(14)
         packet['motor_temp_c']=_ushort(16)
@@ -323,6 +326,7 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['max_custom_regen_torque_pct']=_ushort(36)
         packet['max_custom_brake_regen_torque_pct']=_ushort(38)
     elif data_type == 'PwPk':
+        # Power pack packet
         packet['pack_voltage_mv']=_uint(12)
         cells=[]
         for i in range(28):
@@ -345,18 +349,24 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['motor_current_amps']=_sshort(106)
         packet['num_charge_cycles']=_uint(108)
     elif data_type == 'DSt1':
+        # Dash status 1 packet
         packet['trip_1_km']=_uint(12)/100
         packet['motor_rpm']=_ushort(16)
         packet['error_code']=_ushort(18)
     elif data_type == 'DSt2':
+        # Dash status 2 packet
         packet['trip_2_km']=_uint(12)/100
         packet['est_range_km']=_ushort(16)/100
         packet['motor_temp_c']=_ushort(18)
     elif data_type == 'DSt3':
+        # Dash status 3 packet
         packet['minutes_until_charged']=_ushort(12)
         packet['wh_per_km_instant']=_uint(14)/100
         packet['wh_per_km_avg']=_ushort(20)/100
         packet['wh_per_km_life']=_ushort(22)/100
+    elif data_type == 'ReSd':
+        # Resend packet
+        pass
     else:
         print(data)
         raise ValueError('Unknown packet type: "'+data_type+'" size: '+str(len(data)))

@@ -3,24 +3,27 @@ This is a Python 3.x library to connect to a Zero electric motorcycle via
 Bluetooth and retrieve information.
 
 ## Why?
-Because I wanted to write an Android app to display a "range" circle on Google
-Maps.
+* Because I wanted to write an Android app to display a range circle on Google
+Maps. I can't believe an EV doesn't come with this.
 
-Because I wanted to monitor the charging remotely. The Bluetooth range is only
-about 20 feet maximum, so I set up a Raspberry Pi in range to talk to the bike
-and serve a web page.
+* Because I wanted to monitor the charging remotely. The Bluetooth range is
+only about 20 feet maximum, so I set up a Raspberry Pi in range to talk to the
+bike and serve a web page I can view on my phone from anywhere in the house.
 
-Most importantly of all: THE ZERO ANDROID APP DOESN'T WORK
+It's interesting that the current Zero Android app doesn't work.
 
 The Android app can't find the motorcycle and connect to it, even after you
-pair with it.
-
-Yes, you pay $20,000 for an electric motorcycle, and you can't get a working
-app to connect to it and set up the custom mode. Seriously.
+pair with it. Yes, you pay $20,000 for an electric motorcycle, and you can't
+get a working app to connect to it and set up the custom mode or update the
+firmware. Seriously.
 
 There's a workaround where you can install a 1.x version of the app, connect,
 and then upgrade, but you have to find an older version of the app somewhere
 on the net and hope it doesn't have malware in it.
+
+What is going on out there? Isn't this sort of a fundamental thing to have
+working? One of the reasons I traded my 2015 for a 2021 was to have the
+ability to update the firmware with my phone and not have to visit the dealer.
 
 ### Installation
 

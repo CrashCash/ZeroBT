@@ -71,66 +71,66 @@ while True:
 f=open(fn, 'wb')
 pickler=pickle.Pickler(f, pickle.HIGHEST_PROTOCOL)
 
+cmds=sorted(zerobt.cmd_packets)
+cmds.remove('Gbki')
+
+# because we have to run in the background
+sys.stdout=open('ride_gps_output-%d.txt' % ctr, 'w')
+sys.stderr=open('ride_gps_error-%d.txt' % ctr, 'w')
+
 socket=None
 interrupted=False
-try:
-    # connect to GPSd and wait for lock
-    while not interrupted:
-        try:
-            gpsd.connect()
-            fix=gpsd.get_current()
-            if fix.mode >= 2:
+while not interrupted:
+    try:
+        # connect to GPSd and wait for lock
+        while not interrupted:
+            try:
+                gpsd.connect()
+                fix=gpsd.get_current()
+                if fix.mode >= 2:
+                    break
+            except:
+                print('trying to connect to GPS', flush=True)
+                time.sleep(1)
+        print('GPS acquired', flush=True)
+
+        # connect to bike
+        while not interrupted:
+            try:
+                socket=zerobt.connect_to_bike()
                 break
-        except:
-            print('trying to connect to GPS', flush=True)
-            time.sleep(1)
-    print('GPS acquired', flush=True)
+            except:
+                print('trying to connect to bike', flush=True)
+                time.sleep(1)
+        print('connected to bike', flush=True)
 
-    # connect to bike
-    while not interrupted:
-        try:
-            socket=zerobt.connect_to_bike()
-            break
-        except:
-            print('trying to connect to bike', flush=True)
-            time.sleep(1)
-    print('connected to bike', flush=True)
-
-    # because we have to run in the background
-    sys.stdout=open('ride_gps_output-%d.txt' % ctr, 'w')
-    sys.stderr=open('ride_gps_error-%d.txt' % ctr, 'w')
-
-    ctr=0
-    old_lat=0
-    old_lon=0
-    cmds=sorted(zerobt.cmd_packets)
-    # this is static and only needs to be run once
-    cmds.remove('Gbki')
-    packet=zerobt.read_packet(socket, 'Gbki')
-    pickler.dump(packet)
-    print('running', flush=True)
-    while not interrupted:
-        fix=gpsd.get_current()
-        if fix.mode < 2:
-            continue
-        d=distance(old_lat, old_lon, fix.lat, fix.lon)
-        if d < 25:
-            continue
-        old_lat=fix.lat
-        old_lon=fix.lon
-        for cmd in cmds:
-            packet=zerobt.read_packet(socket, cmd)
-            packet['gps_lat']=fix.lat
-            packet['gps_lon']=fix.lon
-            packet['set']=ctr
-            pickler.dump(packet)
-        ctr+=1
-        if ctr > 15:
-            ctr=0
-except Exception as e:
-    print(e)
-finally:
-    f.close()
-    if socket:
-        socket.close()
-    print('done')
+        ctr=0
+        old_lat=0
+        old_lon=0
+        print('running', flush=True)
+        while not interrupted:
+            fix=gpsd.get_current()
+            if fix.mode < 2:
+                continue
+            # avoid too many points
+            d=distance(old_lat, old_lon, fix.lat, fix.lon)
+            if d < 50:
+                continue
+            old_lat=fix.lat
+            old_lon=fix.lon
+            for cmd in cmds:
+                packet=zerobt.read_packet(socket, cmd)
+                packet['gps_lat']=fix.lat
+                packet['gps_lon']=fix.lon
+                packet['set']=ctr
+                pickler.dump(packet)
+            ctr+=1
+            if ctr > 15:
+                ctr=0
+    except Exception as e:
+        print(e)
+    finally:
+        f.close()
+        if socket:
+            socket.close()
+print('done')
