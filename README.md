@@ -49,6 +49,7 @@ bike's info on webpages, so you can monitor it as it charges.
 
 Place zerobt.py somewhere on the Python path like
 /usr/lib/python3/dist-packages (Debian/Raspberry Pi OS)
+
 ```wget -nd https://raw.githubusercontent.com/CrashCash/ZeroBT/master/zerobt.py -P /usr/lib/python3/dist-packages/```
 
 ### Packets Supported
