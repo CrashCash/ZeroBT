@@ -290,8 +290,11 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['pack_capacity_ah']=_ushort(16)
         packet['pack_capacity_remain_ah']=_ushort(18)
         packet['charge_pct']=_ubyte(20)
+        packet['pack_temp_c']=[]
         for i in range(8):
-            packet['pack_temp_%d_c' % (i+1)]=_ushort(22+i*2)
+            packet['pack_temp_c'].append(_sshort(22+i*2))
+        #packet['pack_temp_min_c']=min(packet['pack_temp_c'])
+        #packet['pack_temp_max_c']=max(packet['pack_temp_c'])
         flags=_uint(40)
         packet['battery_out_of_balance']     =(flags & 0x100000)>0
         packet['battery_charge_critical_low']=(flags & 0x200000)>0
@@ -329,17 +332,17 @@ def read_packet(sock, cmd, timeout=0.5):
         # Power pack packet
         packet['pack_voltage_mv']=_uint(12)
         cells=[]
+        packet['cell_voltage_mv']=[]
         for i in range(28):
-            mv=_ushort(16+i*2)
-            cells.append(mv)
-            packet['cell_voltage_%02d_mv' % (i+1)]=mv
-        packet['cell_voltage_min_mv']=min(cells)
-        packet['cell_voltage_max_mv']=max(cells)
+            packet['cell_voltage_mv'].append(_ushort(16+i*2))
+        packet['cell_voltage_min_mv']=min(packet['cell_voltage_mv'])
+        packet['cell_voltage_max_mv']=max(packet['cell_voltage_mv'])
         packet['charge_pct']=_ubyte(72)
         packet['pack_capacity_ah']=_ushort(74)
         packet['pack_capacity_remain_ah']=_ushort(76)
+        packet['pack_temp_c']=[]
         for i in range(8):
-            packet['pack_temp_%d_c' % (i+1)]=_ushort(78+i*2)
+            packet['pack_temp_c'].append(_sshort(78+i*2))
         packet['pack_temp_max_c']=_ushort(94)
         packet['pack_temp_min_c']=_ushort(96)
         packet['motor_temp_c']=_ushort(98)
@@ -366,7 +369,7 @@ def read_packet(sock, cmd, timeout=0.5):
         packet['wh_per_km_life']=_ushort(22)/100
     elif data_type == 'ReSd':
         # Resend packet
-        pass
+        return read_packet(sock, cmd, timeout)
     else:
         print(data)
         raise ValueError('Unknown packet type: "'+data_type+'" size: '+str(len(data)))

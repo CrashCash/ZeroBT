@@ -52,6 +52,10 @@ Place zerobt.py somewhere on the Python path like
 
 ```wget -nd https://raw.githubusercontent.com/CrashCash/ZeroBT/master/zerobt.py -P /usr/lib/python3/dist-packages/```
 
+(I looked at all the Python module distribution methods, and for a single
+file, they were incredibly over the top. I would spend more effort trying to
+package it than I did to write it.)
+
 ### Packets Supported
 
 * BtSt - Battery status

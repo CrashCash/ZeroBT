@@ -2,11 +2,11 @@
 #
 # Record all packets during a ride for playback, and GPS-tag them
 #
-# Install software on Raspberry Pi
-# apt install gpsd gpsd-clients
+# Install GPSd and the Python client library
+# apt install gpsd
 # pip3 install gpsd-py3
 #
-# Start script: "record_ride_gps &"
+# Set up GPSd to work with your GPS unit or your phone.
 #
 # One possible approach:
 # Set up your phone as a Bluetooth GPS with "GPSd Forwarder" from the Fdroid
@@ -21,8 +21,10 @@
 # Decide on a port to use (e.g. 6666)
 # Edit GPSD_OPTIONS in /etc/default/gpsd to use that port: GPSD_OPTIONS="udp://*:6666"
 # restart the service with "service gpsd restart" to use the new settings.
-# Start "GPSd Forwarder" app on the phone and enter Pi's address and port
+# Start "GPSd Forwarder" app on the phone and enter the Pi's address and port
 # (You can run "cgps" to test things. It should have a scrolling stream of data.)
+#
+# Start script: "record_ride_gps &"
 
 import gpsd
 import math
