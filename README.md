@@ -49,14 +49,7 @@ bike's info on webpages, so you can monitor it as it charges.
 
 ### Installation
 
-Place zerobt.py somewhere on the Python path like
-/usr/lib/python3/dist-packages (Debian/Raspberry Pi OS)
-
-```wget -nd https://raw.githubusercontent.com/CrashCash/ZeroBT/master/zerobt.py -P /usr/lib/python3/dist-packages/```
-
-(I looked at all the Python module distribution methods, and for a single
-file, they were incredibly over the top. I would spend more effort trying to
-package it than I did to write it.)
+```pip3 install https://github.com/CrashCash/ZeroBT/raw/master/dist/zerobt-1.0.tar.gz```
 
 ### Packets Supported
 

@@ -1,4 +1,5 @@
 # python3 setup.py sdist
+# pip install https://github.com/CrashCash/ZeroBT/raw/master/dist/zerobt-1.0.tar.gz
 #
 from distutils.core import setup
 desc="""\
