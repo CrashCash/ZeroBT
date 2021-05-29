@@ -9,6 +9,8 @@ Maps. I can't believe an EV doesn't come with this.
 * Because I wanted to monitor the charging remotely. The Bluetooth range is
 only about 20 feet maximum, so I set up a Raspberry Pi in range to talk to the
 bike and serve a web page I can view on my phone from anywhere in the house.
+Look at my [ZeroServer](https://github.com/CrashCash/ZeroServer) code for
+that.
 
 It's interesting that the current Zero Android app doesn't work.
 
