@@ -48,6 +48,10 @@ Since the bike's Bluetooth range is so short, I designed a system to show the
 bike's info on webpages, so you can monitor it as it charges.
 
 ### Installation
+Set up a Raspberry Pi with built-in Bluetooth and WiFi (like a Raspberry Pi 3
+Model B) and install Raspberry Pi OS Lite on it.
+
+Install with:
 
 ```pip3 install https://github.com/CrashCash/ZeroBT/raw/master/dist/zerobt-1.0.tar.gz```
 
