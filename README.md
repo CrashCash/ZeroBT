@@ -12,21 +12,6 @@ bike and serve a web page I can view on my phone from anywhere in the house.
 Look at my [ZeroServer](https://github.com/CrashCash/ZeroServer) code for
 that.
 
-It's interesting that the current Zero Android app doesn't work.
-
-The Android app can't find the motorcycle and connect to it, even after you
-pair with it. Yes, you pay $20,000 for an electric motorcycle, and you can't
-get a working app to connect to it and set up the custom mode or update the
-firmware. Seriously.
-
-There's a workaround where you can install a 1.x version of the app, connect,
-and then upgrade, but you have to find an older version of the app somewhere
-on the net and hope it doesn't have malware in it.
-
-What is going on out there? Isn't this sort of a fundamental thing to have
-working? One of the reasons I traded my 2015 for a 2021 was to have the
-ability to update the firmware with my phone and not have to visit the dealer.
-
 ### Uses
 If you're using a Raspberry Pi with built-in Bluetooth and WiFi like a
 Raspberry Pi 3 Model B, then it's robust enough to throw in a saddlebag and
@@ -204,3 +189,20 @@ Changing discoverable off succeeded\
 [bluetooth]# ```quit```
 
 Now you can turn the bike off.
+
+### Note
+
+It's interesting that the current Zero Android app doesn't work.
+
+The Android app can't find the motorcycle and connect to it, even after you
+pair with it. Yes, you pay $20,000 for an electric motorcycle, and you can't
+get a working app to connect to it and set up the custom mode or update the
+firmware. Seriously.
+
+There's a workaround where you can install a 1.x version of the app, connect,
+and then upgrade, but you have to find an older version of the app somewhere
+on the net and hope it doesn't have malware in it.
+
+What is going on out there? Isn't this sort of a fundamental thing to have
+working? One of the reasons I traded my 2015 for a 2021 was to have the
+ability to update the firmware with my phone and not have to visit the dealer.
