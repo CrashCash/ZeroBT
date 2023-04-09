@@ -1,0 +1,108 @@
+#! /usr/bin/env python3
+# extract packets from a ride and write to kml for Google Maps
+#
+# To view in Google Earth:
+# Go to earth.google.com/web
+# Click the "Projects" icon
+# Click "New Project"
+# Select "Import KML file from computer"
+# Select KML file
+
+import os
+import sys
+import pickle
+
+kml1=['<?xml version="1.0" encoding="UTF-8"?>',
+      '<kml xmlns="http://earth.google.com/kml/2.0">',
+      '<Document>',
+      '<Style id="myline">',
+      '<LineStyle>',
+      '<color>ff000000black</color>',
+      '<width>8.0</width>',
+      '</LineStyle>',
+      '</Style>',
+      '<Placemark>',
+      '<styleUrl>#myline</styleUrl>',
+      '<LineString>',
+      '<tessellate>1</tessellate>',
+      '<altitudeMode>clampToGround</altitudeMode>',
+      '<coordinates>']
+
+kml2=['</coordinates>',
+      '</LineString>',
+      '</Placemark>']
+
+kml3=['</Document>',
+      '</kml>']
+
+# read packets
+fn=sys.argv[1]
+f=open(fn, 'rb')
+unpickler=pickle.Unpickler(f)
+packets=[]
+while True:
+    try:
+        packets.append(unpickler.load())
+    except EOFError:
+        break
+f.close()
+
+# open output
+fn, x=os.path.splitext(fn)
+f=open(fn+'.kml', 'w')
+
+for i in kml1:
+    print(i, file=f)
+
+data_set=None
+for packet in packets:
+    if 'set' not in packet:
+        continue
+    if data_set != packet['set'] and data_set != None:
+        print(lon, lat, sep=',', file=f)
+    data_set=packet['set']
+    time=packet['time']
+    lat=packet['gps_lat']
+    lon=packet['gps_lon']
+
+for i in kml2:
+    print(i, file=f)
+
+data_set=None
+for packet in packets:
+    if 'set' not in packet:
+        continue
+    if data_set != packet['set'] and data_set != None:
+        print('<Placemark>', file=f)
+        print('<name>'+time+'</name>', file=f)
+        print('<description>', file=f)
+        print('Speed:', speed, '<br/>', file=f)
+        print('Motor RPM:', rpm, '<br/>', file=f)
+        print('Motor Temp:', temp, '<br/>', file=f)
+        print('Motor Current:', current, '<br/>', file=f)
+        print('Motor Torque:', torque, '<br/>', file=f)
+        print('Brake:', brake, file=f)
+        #print(':', , '<br/>', file=f)
+        print('</description>', file=f)
+        print('<Point>', file=f)
+        print('<coordinates>', file=f)
+        print(lon, lat, sep=',', file=f)
+        print('</coordinates>', file=f)
+        print('</Point>', file=f)
+        print('</Placemark>', file=f)
+    data_set=packet['set']
+    time=packet['time']
+    lat=packet['gps_lat']
+    lon=packet['gps_lon']
+    if packet['type'] == 'MbbR':
+        speed=packet['bike_speed_mph']
+        rpm=packet['motor_speed_rpm']
+        torque=packet['motor_torque_nm']
+        temp=packet['motor_temp_c']
+        brake=packet['brake_applied']
+    elif packet['type'] == 'PwPk':
+        current=packet['motor_current_amps']
+
+for i in kml3:
+    print(i, file=f)
+f.close()

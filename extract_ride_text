@@ -1,0 +1,29 @@
+#! /usr/bin/env python3
+# demonstrate how to extract packets from a ride and write to csv for a spreadsheet
+#
+# Run using:
+# extract_ride_txt ride.dat
+
+import os
+import sys
+import pickle
+
+# read packets
+fn=sys.argv[1]
+f1=open(fn, 'rb')
+unpickler=pickle.Unpickler(f1)
+
+
+# open output
+fn, x=os.path.splitext(fn)
+f2=open(fn+'.txt', 'w')
+
+while True:
+    try:
+        packet=unpickler.load()
+        t=packet['type']
+        print(t+'='+repr(packet), file=f2)
+    except EOFError:
+        break
+f1.close()
+f2.close()
