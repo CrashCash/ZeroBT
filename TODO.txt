@@ -1,5 +1,0 @@
-* zerobt.py: get it working on Windows
-
-* record_ride_gps: get GPS stuff working
-
-* extract_ride_gps: finish
